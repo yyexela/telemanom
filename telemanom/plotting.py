@@ -109,16 +109,27 @@ class Plotter:
             print('Total number of values evaluated: {}'
                   .format(self.result_df['num_test_values'].sum()))
 
-    def channel_result_summary(self, channel, plot_values):
+    def channel_result_summary(self, channel_id):
         """
         Print results for a channel.
 
         Args:
-            channel (obj): Channel class object containing train/test data
-                for X,y for a single channel
-            plot_values (dict): dictionary of different series to be plotted
-                (predicted, actual, errors, training data)
+            channel_id (str): channel id
         """
+
+        plot_values = {
+            'y_hat': np.load(os.path.join('..', 'data', self.run_id, 'y_hat',
+                                          '{}.npy'.format(channel_id))),
+            'smoothed_errors': np.load(os.path.join('..', 'data', self.run_id,
+                                                    'smoothed_errors',
+                                                    '{}.npy'.format(channel_id))),
+            'test': np.load(os.path.join('..', 'data', 'test', '{}.npy'
+                                         .format(channel_id))),
+            'train': np.load(os.path.join('..', 'data', 'train', '{}.npy'
+                                          .format(channel_id)))
+        }
+
+        channel = self.result_df[self.result_df['chan_id'] == channel_id]
 
         if 'spacecraft' in channel:
             print('Spacecraft: {}'.format(channel['spacecraft'].values[0]))
@@ -171,7 +182,7 @@ class Plotter:
                                           .format(channel_id)))
         }
 
-        self.channel_result_summary(channel, plot_values)
+        self.channel_result_summary(channel_id)
 
         sequence_type = 'true' if self.labels_available else 'predicted'
         y_shapes = self.create_shapes(eval(channel['anomaly_sequences'].values[0]),
