@@ -158,7 +158,7 @@ class Plotter:
                                                     .values[0]))
         print('Number of values: {}'.format(len(plot_values['test'])))
 
-    def plot_channel(self, channel_id, plot_train=False, plot_test=False, plot_errors=True):
+    def plot_channel(self, channel_id, plot_train=False, plot_test=False, plot_both=False, plot_errors=True):
         """
         Generate interactive plots for a channel. By default it prints actual
         and predicted telemetry values.
@@ -241,6 +241,20 @@ class Plotter:
         if plot_test:
             test_df.iplot(kind='scatter', color='green',
                            layout={'title': "Testing Data"})
+
+        if plot_both:
+            train_points = train_df.shape[0]
+            test_points = test_df.shape[0]
+            train_df_2 = train_df.rename(columns={'train':'total'})
+            test_df_2 = test_df.rename(columns={'test':'total'})
+            combined_df = pd.concat([train_df_2, test_df_2], ignore_index=True)
+            line_shape = {
+                "type":"line",
+                "x0":train_points, "y0":-1, "x1":train_points, "y1":1,
+                "line":dict(color="Red",width=3)
+            }
+            combined_df.iplot(kind='scatter', color='green',
+                           layout={'title': "Total Data", "shapes": [line_shape]})
 
         y_df.iplot(kind='scatter', layout=y_layout)
 
