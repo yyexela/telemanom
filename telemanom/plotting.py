@@ -129,6 +129,12 @@ class Plotter:
                                           .format(channel_id)))
         }
 
+        train_data = plot_values['train'].shape[0]
+        test_data = plot_values['test'].shape[0]
+        total_data = train_data+test_data
+        print(f"Train shape {train_data/total_data*100:.2f}%:", plot_values['train'].shape)
+        print(f"Test shape {test_data/total_data*100:.2f}%:", plot_values['test'].shape)
+
         channel = self.result_df[self.result_df['chan_id'] == channel_id]
 
         if 'spacecraft' in channel:
@@ -181,9 +187,6 @@ class Plotter:
             'train': np.load(os.path.join('..', 'data', 'train', '{}.npy'
                                           .format(channel_id)))
         }
-
-        print("Train shape:", plot_values['train'].shape)
-        print("Test shape:", plot_values['test'].shape)
 
         self.channel_result_summary(channel_id)
 
