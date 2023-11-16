@@ -160,6 +160,7 @@ class Plotter:
             print('Anomaly sequences start/end indices: {}'
                   .format(channel['anomaly_sequences'].values[0]))
 
+        display(channel)
         print('Predicted anomaly scores: {}'.format(channel['anom_scores']
                                                     .values[0]))
         print('Number of values: {}'.format(len(plot_values['test'])))
