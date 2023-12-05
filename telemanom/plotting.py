@@ -25,7 +25,7 @@ class Plotter:
 
         self.config = Config(config_path)
         self.run_id = run_id
-        self.result_df = pd.read_csv(os.path.join('..', 'results', '{}.csv'
+        self.result_df = pd.read_csv(os.path.join(self.config.telemanom_dir, 'results', '{}.csv'
                                                   .format(self.run_id)))
         self.labels_available = True if 'true_positives' \
                                         in self.result_df.columns else False
@@ -118,14 +118,14 @@ class Plotter:
         """
 
         plot_values = {
-            'y_hat': np.load(os.path.join('..', 'data', self.run_id, 'y_hat',
+            'y_hat': np.load(os.path.join(self.config.telemanom_dir, 'data', self.run_id, 'y_hat',
                                           '{}.npy'.format(channel_id))),
-            'smoothed_errors': np.load(os.path.join('..', 'data', self.run_id,
+            'smoothed_errors': np.load(os.path.join(self.config.telemanom_dir, 'data', self.run_id,
                                                     'smoothed_errors',
                                                     '{}.npy'.format(channel_id))),
-            'test': np.load(os.path.join('..', 'data', 'test', '{}.npy'
+            'test': np.load(os.path.join(self.config.telemanom_dir, 'data', 'test', '{}.npy'
                                          .format(channel_id))),
-            'train': np.load(os.path.join('..', 'data', 'train', '{}.npy'
+            'train': np.load(os.path.join(self.config.telemanom_dir, 'data', 'train', '{}.npy'
                                           .format(channel_id)))
         }
 
@@ -178,14 +178,14 @@ class Plotter:
         channel = self.result_df[self.result_df['chan_id'] == channel_id]
 
         plot_values = {
-            'y_hat': np.load(os.path.join('..', 'data', self.run_id, 'y_hat',
+            'y_hat': np.load(os.path.join(self.config.telemanom_dir, 'data', self.run_id, 'y_hat',
                                           '{}.npy'.format(channel_id))),
-            'smoothed_errors': np.load(os.path.join('..', 'data', self.run_id,
+            'smoothed_errors': np.load(os.path.join(self.config.telemanom_dir, 'data', self.run_id,
                                                     'smoothed_errors',
                                                     '{}.npy'.format(channel_id))),
-            'test': np.load(os.path.join('..', 'data', 'test', '{}.npy'
+            'test': np.load(os.path.join(self.config.telemanom_dir, 'data', 'test', '{}.npy'
                                          .format(channel_id))),
-            'train': np.load(os.path.join('..', 'data', 'train', '{}.npy'
+            'train': np.load(os.path.join(self.config.telemanom_dir, 'data', 'train', '{}.npy'
                                           .format(channel_id)))
         }
 
@@ -258,7 +258,7 @@ class Plotter:
                 "line":dict(color="Red",width=3)
             }
             combined_df.iplot(kind='scatter', color='green',
-                           layout={'title': "Total Data", "shapes": [line_shape]})
+                           layout={'title': "Total Data", "shapes": [line_shape, e_shapes]})
 
         y_df.iplot(kind='scatter', layout=y_layout)
 
